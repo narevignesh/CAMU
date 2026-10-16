@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Assessments & Quizzes | MY CAMU</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="assessments">
+
+  <div class="app-container">
+    <aside class="app-sidebar" id="appSidebar"></aside>
+
+    <div class="app-main">
+      <div class="demo-banner">
+        <div>
+          <i class="bi bi-patch-question-fill me-1 text-primary"></i>
+          <strong>Interactive Assessment Engine</strong> &bull; Automatic scoring, real-time timer & answer key review
+        </div>
+        <div>
+          <span class="badge-demo">Demonstration Assessment</span>
+        </div>
+      </div>
+
+      <header class="app-topbar" id="appTopbar"></header>
+
+      <main class="app-content">
+        <!-- 1. Quizzes Catalog Section -->
+        <div id="quizListSection">
+          <div class="page-header">
+            <div class="page-title-box">
+              <h2 class="page-title"><i class="bi bi-patch-question-fill text-primary"></i> Online Assessments & Quizzes</h2>
+              <p class="page-subtitle">Participate in continuous evaluation quizzes with instant feedback, time tracking, and score cards.</p>
+            </div>
+          </div>
+
+          <div class="row g-3" id="quizzesListContainer"></div>
+        </div>
+
+        <!-- 2. Interactive Quiz Arena Section (Initially Hidden) -->
+        <div id="quizArenaSection" class="d-none">
+          <div class="quiz-container mb-4">
+            <!-- Arena Header -->
+            <div class="quiz-header">
+              <div>
+                <span class="badge bg-primary me-2" id="arenaCourseCode">CS601</span>
+                <span class="fw-bold fs-5 text-main" id="arenaQuizTitle">Assessment Title</span>
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <div class="quiz-timer-badge">
+                  <i class="bi bi-stopwatch"></i>
+                  <span id="quizTimerDisplay">15:00</span>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="CamuAssessments.exitQuiz()">
+                  <i class="bi bi-x-lg me-1"></i> Exit
+                </button>
+              </div>
+            </div>
+
+            <!-- Quiz Layout: Questions Left, Palette Right -->
+            <div class="row g-4">
+              <!-- Question Card Column -->
+              <div class="col-lg-8">
+                <div class="p-3 bg-subtle rounded-3 mb-3 d-flex justify-content-between align-items-center">
+                  <span class="fw-bold text-primary" id="currentQuestionNumber">Question 1 of 8</span>
+                  <span class="small text-muted"><i class="bi bi-info-circle me-1"></i>Select 1 correct option</span>
+                </div>
+
+                <h5 class="fw-bold text-main mb-4" id="questionPrompt">Loading question...</h5>
+
+                <!-- Options -->
+                <div id="questionOptionsContainer" class="mb-4"></div>
+
+                <!-- Action Controls -->
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                  <button type="button" class="btn btn-secondary" id="btnPrevQuestion" onclick="CamuAssessments.prevQuestion()">
+                    <i class="bi bi-arrow-left me-1"></i> Previous
+                  </button>
+                  <button type="button" class="btn btn-primary" id="btnNextQuestion" onclick="CamuAssessments.nextQuestion()">
+                    Next Question <i class="bi bi-arrow-right ms-1"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Question Palette Column -->
+              <div class="col-lg-4 border-start">
+                <h6 class="fw-bold mb-3 text-main">Question Palette</h6>
+                <div class="question-nav-grid mb-4" id="questionPalette"></div>
+
+                <div class="p-3 bg-subtle rounded-3 small">
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="q-nav-btn answered" style="width: 22px; height: 22px; font-size: 0.65rem;">&bull;</span>
+                    <span>Answered Question</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="q-nav-btn active" style="width: 22px; height: 22px; font-size: 0.65rem;">&bull;</span>
+                    <span>Current Active Question</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="q-nav-btn" style="width: 22px; height: 22px; font-size: 0.65rem;">&bull;</span>
+                    <span>Unanswered Question</span>
+                  </div>
+                </div>
+
+                <button type="button" class="btn btn-outline-success w-100 mt-4 fw-bold" onclick="CamuAssessments.confirmSubmit()">
+                  <i class="bi bi-check2-circle me-1"></i> Finish & Submit Assessment
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Quiz Result Summary Section (Initially Hidden) -->
+        <div id="quizResultSection" class="d-none">
+          <div class="camu-card max-w-700 mx-auto text-center p-4">
+            <div class="mb-3">
+              <span id="resultStatusBadge"></span>
+            </div>
+            <h3 class="fw-bold mb-1" id="resultQuizTitle">Assessment Result</h3>
+            <div class="text-muted small mb-4">MOHAN BABU UNIVERSITY &bull; Academic Continuous Evaluation</div>
+
+            <div class="p-4 rounded-4 bg-light border d-inline-block mb-4" style="min-width: 260px;">
+              <div class="display-3 fw-bold text-primary mb-0" id="resultScoreDisplay">88%</div>
+              <div class="text-muted small mt-1" id="resultFractionDisplay">7 of 8 Correct</div>
+            </div>
+
+            <p class="text-muted small mb-4">
+              Your score has been updated in the continuous evaluation record and stored in your profile ledger.
+            </p>
+
+            <div class="d-flex gap-2 justify-content-center">
+              <button type="button" class="btn btn-outline-primary" onclick="CamuAssessments.reviewQuiz(CamuAssessments.currentQuiz.id)">
+                <i class="bi bi-eye me-1"></i> Review Questions & Explanations
+              </button>
+              <button type="button" class="btn btn-primary" onclick="CamuAssessments.exitQuiz()">
+                <i class="bi bi-arrow-left me-1"></i> Return to Assessments
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="app-footer" id="appFooter"></footer>
+    </div>
+  </div>
+
+  <!-- Submit Confirmation Modal -->
+  <div class="modal fade" id="submitQuizModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-body text-center p-4">
+          <div class="rounded-circle bg-warning-subtle text-warning d-inline-flex p-3 mb-3">
+            <i class="bi bi-question-circle fs-2"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Submit Assessment?</h5>
+          <p class="text-muted small mb-4" id="submitQuizModalBody">Are you sure you wish to submit?</p>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-secondary flex-grow-1" data-bs-dismiss="modal">Resume</button>
+            <button type="button" class="btn btn-success flex-grow-1 fw-bold" onclick="CamuAssessments.submitAssessment()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/utilities.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/assessments.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      CamuNav.init("assessments", [{ label: "Online Assessments", href: "assessments.html" }]);
+      CamuAssessments.init();
+    });
+  </script>
+</body>
+</html>

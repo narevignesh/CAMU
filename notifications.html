@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications | MY CAMU</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="notifications">
+
+  <div class="app-container">
+    <aside class="app-sidebar" id="appSidebar"></aside>
+
+    <div class="app-main">
+      <div class="demo-banner">
+        <div>
+          <i class="bi bi-bell-fill me-1 text-primary"></i>
+          <strong>MOHAN BABU UNIVERSITY</strong> &bull; Student Notification Center
+        </div>
+        <div>
+          <span class="badge-demo">Demonstration Alerts</span>
+        </div>
+      </div>
+
+      <header class="app-topbar" id="appTopbar"></header>
+
+      <main class="app-content">
+        <div class="page-header">
+          <div class="page-title-box">
+            <h2 class="page-title"><i class="bi bi-bell-fill text-primary"></i> Notifications & Reminders</h2>
+            <p class="page-subtitle">Real-time alerts regarding academic deadlines, fee verifications, placements, and grades.</p>
+          </div>
+          <div class="page-actions">
+            <button type="button" class="btn btn-outline-primary" onclick="markAllRead()">
+              <i class="bi bi-check2-all me-1"></i> Mark All as Read
+            </button>
+          </div>
+        </div>
+
+        <div class="camu-card">
+          <div class="camu-card-body p-0">
+            <div class="list-group list-group-flush" id="notificationCenterList"></div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="app-footer" id="appFooter"></footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/utilities.js"></script>
+  <script src="js/navigation.js"></script>
+
+  <script>
+    function renderNotifs() {
+      const container = document.getElementById("notificationCenterList");
+      const list = CamuStorage.getNotifications();
+      let html = "";
+      if (list.length === 0) {
+        container.innerHTML = `<div class="p-5 text-center text-muted"><i class="bi bi-bell-slash fs-2 d-block mb-2"></i>No notifications</div>`;
+        return;
+      }
+      list.forEach(n => {
+        html += `
+          <div class="list-group-item p-3 d-flex align-items-center justify-content-between ${!n.read ? 'bg-primary-subtle bg-opacity-25' : ''}">
+            <div class="d-flex align-items-center gap-3">
+              <div class="rounded-circle p-2.5 bg-${n.color || 'primary'}-subtle text-${n.color || 'primary'} fs-4">
+                <i class="bi ${n.icon || 'bi-bell'}"></i>
+              </div>
+              <div>
+                <div class="fw-bold text-main ${!n.read ? 'text-primary' : ''}">${n.title}</div>
+                <div class="text-muted small">${n.message}</div>
+                <div class="text-secondary small mt-1" style="font-size: 0.72rem;">${n.time}</div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              ${n.link ? `<a href="${n.link}" class="btn btn-sm btn-outline-primary py-1 px-2.5">Open &rarr;</a>` : ''}
+              ${!n.read ? `<button type="button" class="btn btn-sm btn-light border py-1 px-2 text-muted" onclick="markRead('${n.id}')" title="Mark read"><i class="bi bi-check2"></i></button>` : ''}
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function markRead(id) {
+      CamuStorage.markNotificationRead(id);
+      renderNotifs();
+      CamuNav.renderSidebar();
+      CamuNav.renderTopbar();
+    }
+
+    function markAllRead() {
+      CamuStorage.markAllNotificationsRead();
+      renderNotifs();
+      CamuNav.renderSidebar();
+      CamuNav.renderTopbar();
+      CamuUtils.showToast("All notifications marked as read.", "success", "Notifications");
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      CamuNav.init("notifications", [{ label: "Notifications", href: "notifications.html" }]);
+      renderNotifs();
+    });
+  </script>
+</body>
+</html>

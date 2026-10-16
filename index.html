@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MY CAMU - Student Portal</title>
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script>
+    // Automatic redirection gateway
+    document.addEventListener("DOMContentLoaded", function() {
+      const auth = CamuStorage.getAuth();
+      if (auth && auth.isLoggedIn) {
+        window.location.replace("dashboard.html");
+      } else {
+        window.location.replace("login.html");
+      }
+    });
+  </script>
+</head>
+<body style="background-color: #0f172a; color: #ffffff; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; margin: 0;">
+  <div style="text-align: center;">
+    <h2 style="margin-bottom: 8px;">MY CAMU</h2>
+    <p style="color: #94a3b8; font-size: 14px;">Redirecting to Student Portal...</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | MY CAMU</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom Design System -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .profile-hero-card {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #1e40af 100%);
+      color: #ffffff;
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      box-shadow: var(--shadow-md);
+    }
+    .profile-avatar-lg {
+      width: 110px;
+      height: 110px;
+      border-radius: var(--radius-full);
+      border: 4px solid #3b82f6;
+      object-fit: cover;
+      box-shadow: var(--shadow-md);
+      background-color: #1e293b;
+    }
+    .profile-section-card {
+      margin-bottom: 1.75rem;
+    }
+    .profile-nav-tabs .nav-link {
+      font-weight: 600;
+      color: var(--text-muted);
+      border: none;
+      padding: 0.85rem 1.25rem;
+      border-bottom: 3px solid transparent;
+      border-radius: 0;
+    }
+    .profile-nav-tabs .nav-link.active {
+      color: var(--camu-blue);
+      border-bottom-color: var(--camu-blue);
+      background: transparent;
+    }
+  </style>
+</head>
+<body data-page="profile">
+
+  <div class="app-container">
+    <aside class="app-sidebar" id="appSidebar"></aside>
+
+    <div class="app-main">
+      <div class="demo-banner">
+        <div>
+          <i class="bi bi-person-badge-fill me-1 text-primary"></i>
+          <strong>Student Profile Management</strong> &bull; Complete academic, personal, and career records
+        </div>
+        <div>
+          <span class="badge-demo"><i class="bi bi-check2-circle me-1"></i> Editable Demonstration State</span>
+        </div>
+      </div>
+
+      <header class="app-topbar" id="appTopbar"></header>
+
+      <main class="app-content">
+        <!-- Profile Hero Banner -->
+        <div class="profile-hero-card">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+              <div class="position-relative">
+                <img id="profileHeaderPhoto" src="assets/images/student-avatar.jpg" alt="Student Profile" class="profile-avatar-lg" onerror="this.src='https://ui-avatars.com/api/?name=Vigneshwaran+R&background=2563eb&color=fff'">
+                <button type="button" class="btn btn-sm btn-primary rounded-circle position-absolute bottom-0 end-0 p-1 px-1.5 shadow" data-bs-toggle="modal" data-bs-target="#photoUploadModal" title="Change Photo">
+                  <i class="bi bi-camera-fill"></i>
+                </button>
+              </div>
+              <div>
+                <div class="d-flex align-items-center gap-2">
+                  <h3 class="fw-bold mb-0 text-white" id="profileHeaderName">Vigneshwaran R</h3>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Active</span>
+                </div>
+                <div class="text-white-50 mt-1" id="profileHeaderDegree">B.Tech Computer Science & Engineering (AI & ML)</div>
+                <div class="d-flex align-items-center gap-2 mt-2 flex-wrap">
+                  <span class="badge bg-white bg-opacity-10 text-white"><i class="bi bi-person-vcard me-1"></i> ID: <strong id="profileHeaderId">21BCE1042</strong></span>
+                  <span class="badge bg-white bg-opacity-10 text-white" id="profileHeaderSem">4th Year • Semester 6 • Section CSE-A</span>
+                  <span class="badge bg-white bg-opacity-10 text-white" id="profileHeaderCollege">Mohan Babu University</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Profile Controls -->
+            <div class="d-flex align-items-center gap-2">
+              <button type="button" class="btn btn-light fw-bold" id="btnEditProfile">
+                <i class="bi bi-pencil-square me-1"></i> Edit Profile
+              </button>
+              <button type="button" class="btn btn-success fw-bold d-none" id="btnSaveProfile">
+                <i class="bi bi-check2-circle me-1"></i> Save Changes
+              </button>
+              <button type="button" class="btn btn-outline-light fw-bold d-none" id="btnCancelProfile">
+                <i class="bi bi-x-circle me-1"></i> Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Tabs -->
+        <ul class="nav profile-nav-tabs mb-4 border-bottom" id="profileTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">
+              <i class="bi bi-person me-1"></i> Personal Information
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="academic-tab" data-bs-toggle="tab" data-bs-target="#academic" type="button" role="tab">
+              <i class="bi bi-mortarboard me-1"></i> Academic Details
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="family-tab" data-bs-toggle="tab" data-bs-target="#family" type="button" role="tab">
+              <i class="bi bi-people me-1"></i> Family & Guardian
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="career-tab" data-bs-toggle="tab" data-bs-target="#career" type="button" role="tab">
+              <i class="bi bi-briefcase me-1"></i> Skills, Resume & Career
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tab Contents -->
+        <div class="tab-content" id="profileTabContent">
+          <!-- 1. Personal Information Tab -->
+          <div class="tab-pane fade show active" id="personal" role="tabpanel">
+            <div class="camu-card profile-section-card">
+              <div class="camu-card-header">
+                <div class="camu-card-title">
+                  <i class="bi bi-person-lines-fill"></i>
+                  <span>Personal Contact & Identification</span>
+                </div>
+              </div>
+              <div class="camu-card-body">
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control profile-editable-field" id="fullNameInput" readonly>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Student ID</label>
+                    <input type="text" class="form-control" id="studentIdInput" readonly disabled>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">University Registration No.</label>
+                    <input type="text" class="form-control" id="regNoInput" readonly disabled>
+                  </div>
+
+                  <div class="col-md-3">
+                    <label class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control profile-editable-field" id="dobInput" readonly>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Gender</label>
+                    <select class="form-select profile-editable-field" id="genderSelect" disabled>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Blood Group</label>
+                    <select class="form-select profile-editable-field" id="bloodGroupSelect" disabled>
+                      <option value="O+">O+</option>
+                      <option value="O-">O-</option>
+                      <option value="A+">A+</option>
+                      <option value="A-">A-</option>
+                      <option value="B+">B+</option>
+                      <option value="B-">B-</option>
+                      <option value="AB+">AB+</option>
+                      <option value="AB-">AB-</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Personal Phone Number</label>
+                    <input type="text" class="form-control profile-editable-field" id="phoneInput" readonly>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">Personal Email</label>
+                    <input type="email" class="form-control profile-editable-field" id="personalEmailInput" readonly>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Official University Email</label>
+                    <input type="email" class="form-control" id="universityEmailInput" readonly disabled>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label">Residential Address</label>
+                    <input type="text" class="form-control profile-editable-field" id="addressInput" readonly>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label class="form-label">City</label>
+                    <input type="text" class="form-control profile-editable-field" id="cityInput" readonly>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">State</label>
+                    <input type="text" class="form-control profile-editable-field" id="stateInput" readonly>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Postal Code (PIN)</label>
+                    <input type="text" class="form-control profile-editable-field" id="postalCodeInput" readonly>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label">Emergency Contact Name & Phone</label>
+                    <input type="text" class="form-control profile-editable-field" id="emergencyContactInput" readonly>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Academic Details Tab -->
+          <div class="tab-pane fade" id="academic" role="tabpanel">
+            <div class="camu-card profile-section-card">
+              <div class="camu-card-header">
+                <div class="camu-card-title">
+                  <i class="bi bi-mortarboard-fill"></i>
+                  <span>University & Department Enrollment</span>
+                </div>
+              </div>
+              <div class="camu-card-body">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">University</label>
+                    <input type="text" class="form-control" id="universityInput" readonly disabled>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">School / Faculty</label>
+                    <input type="text" class="form-control" id="collegeInput" readonly disabled>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">Department</label>
+                    <input type="text" class="form-control" id="departmentInput" readonly disabled>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Program & Degree</label>
+                    <input type="text" class="form-control" id="degreeInput" readonly disabled>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label">Specialization Branch</label>
+                    <input type="text" class="form-control" id="branchInput" readonly disabled>
+                  </div>
+
+                  <div class="col-md-3">
+                    <label class="form-label">Admission Year</label>
+                    <input type="text" class="form-control" id="admissionYearInput" readonly disabled>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Expected Graduation Year</label>
+                    <input type="text" class="form-control" id="graduationYearInput" readonly disabled>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Current Academic Year</label>
+                    <input type="text" class="form-control" id="currentYearInput" readonly disabled>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Current Semester</label>
+                    <input type="text" class="form-control" id="currentSemesterInput" readonly disabled>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label class="form-label">Section</label>
+                    <input type="text" class="form-control" id="sectionInput" readonly disabled>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Class Roll Number</label>
+                    <input type="text" class="form-control" id="rollNoInput" readonly disabled>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Academic Status</label>
+                    <input type="text" class="form-control" id="academicStatusInput" readonly disabled>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label">Faculty Academic Advisor & Mentorship Lead</label>
+                    <input type="text" class="form-control" id="academicAdvisorInput" readonly disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Family & Guardian Tab -->
+          <div class="tab-pane fade" id="family" role="tabpanel">
+            <div class="camu-card profile-section-card">
+              <div class="camu-card-header">
+                <div class="camu-card-title">
+                  <i class="bi bi-people-fill"></i>
+                  <span>Parent & Guardian Records</span>
+                </div>
+              </div>
+              <div class="camu-card-body">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Father's Name</label>
+                    <input type="text" class="form-control profile-editable-field" id="fatherNameInput" readonly>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Father's Occupation</label>
+                    <input type="text" class="form-control profile-editable-field" id="fatherOccupationInput" readonly>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">Mother's Name</label>
+                    <input type="text" class="form-control profile-editable-field" id="motherNameInput" readonly>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Mother's Occupation</label>
+                    <input type="text" class="form-control profile-editable-field" id="motherOccupationInput" readonly>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label">Guardian Emergency Phone</label>
+                    <input type="text" class="form-control profile-editable-field" id="guardianContactInput" readonly>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Guardian Official Email</label>
+                    <input type="email" class="form-control profile-editable-field" id="guardianEmailInput" readonly>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label">Permanent Family Address</label>
+                    <input type="text" class="form-control profile-editable-field" id="permanentAddressInput" readonly>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Skills, Resume & Career Tab -->
+          <div class="tab-pane fade" id="career" role="tabpanel">
+            <!-- Skills & Competencies -->
+            <div class="camu-card profile-section-card mb-4">
+              <div class="camu-card-header">
+                <div class="camu-card-title">
+                  <i class="bi bi-tools"></i>
+                  <span>Technical Skills & Competencies</span>
+                </div>
+              </div>
+              <div class="camu-card-body">
+                <div id="skillsContainer" class="d-flex flex-wrap gap-2 align-items-center"></div>
+              </div>
+            </div>
+
+            <!-- Resume & Career Placement Profile -->
+            <div class="camu-card profile-section-card mb-4">
+              <div class="camu-card-header">
+                <div class="camu-card-title">
+                  <i class="bi bi-file-earmark-person-fill"></i>
+                  <span>Placement Resume & Portfolio</span>
+                </div>
+              </div>
+              <div class="camu-card-body">
+                <div class="p-3 rounded-3 border bg-light d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-circle p-2.5 bg-primary-subtle text-primary fs-3">
+                      <i class="bi bi-file-earmark-pdf-fill"></i>
+                    </div>
+                    <div>
+                      <div class="fw-bold" id="resumeNameDisplay">Vigneshwaran_Resume_2026.pdf</div>
+                      <div class="text-muted small" id="resumeUpdatedDisplay">Last synchronized on 12 Oct 2026 &bull; Verified for Super Dream Drives</div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <label for="resumeFileInput" class="btn btn-primary btn-sm px-3 cursor-pointer mb-0">
+                      <i class="bi bi-upload me-1"></i> Upload Updated Resume
+                    </label>
+                    <input type="file" id="resumeFileInput" accept=".pdf,.docx" class="d-none">
+                  </div>
+                </div>
+
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <label class="form-label">LinkedIn Profile URL</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-linkedin"></i></span>
+                      <input type="url" class="form-control profile-editable-field" id="linkedInInput" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">GitHub Profile URL</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-github"></i></span>
+                      <input type="url" class="form-control profile-editable-field" id="githubInput" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Portfolio Website URL</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-globe"></i></span>
+                      <input type="url" class="form-control profile-editable-field" id="portfolioInput" readonly>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Languages & Career Interests -->
+            <div class="row g-4">
+              <div class="col-md-6">
+                <div class="camu-card">
+                  <div class="camu-card-header">
+                    <div class="camu-card-title"><i class="bi bi-translate"></i><span>Languages Known</span></div>
+                  </div>
+                  <div class="camu-card-body">
+                    <div id="languagesContainer"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="camu-card">
+                  <div class="camu-card-header">
+                    <div class="camu-card-title"><i class="bi bi-compass"></i><span>Target Career Domains</span></div>
+                  </div>
+                  <div class="camu-card-body">
+                    <div id="interestsContainer"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="app-footer" id="appFooter"></footer>
+    </div>
+  </div>
+
+  <!-- Photo Upload Modal -->
+  <div class="modal fade" id="photoUploadModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="fw-bold mb-0">Change Profile Photo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <p class="text-muted small mb-3">Upload a passport-style or professional formal photograph (JPG/PNG).</p>
+          <input type="file" id="profilePhotoFileInput" accept="image/*" class="form-control mb-3">
+          <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CDN Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core App Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/utilities.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/profile.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      CamuNav.init("profile", [
+        { label: "My Profile", href: "profile.html" }
+      ]);
+      CamuProfile.init();
+    });
+  </script>
+</body>
+</html>

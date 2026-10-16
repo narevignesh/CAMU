@@ -1,0 +1,219 @@
+/* ==========================================================================
+   MY CAMU - Responsive & Adaptive Media Queries
+   ========================================================================== */
+
+/* Large Tablets & Small Laptops (<= 1199px) */
+@media (max-width: 1199.98px) {
+  :root {
+    --sidebar-width: 250px;
+  }
+
+  .app-content {
+    padding: 1.5rem;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+}
+
+/* Medium Tablets & iPads (<= 991.98px) */
+@media (max-width: 991.98px) {
+  .app-sidebar {
+    transform: translateX(-100%);
+    width: 280px !important;
+  }
+
+  body.sidebar-mobile-open .app-sidebar {
+    transform: translateX(0);
+  }
+
+  /* Overlay backdrop for mobile sidebar */
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1025;
+  }
+
+  body.sidebar-mobile-open .sidebar-backdrop {
+    display: block;
+  }
+
+  .app-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .topbar-search-trigger {
+    width: 200px;
+  }
+
+  .hero-student-meta {
+    width: 100%;
+  }
+
+  .hero-actions {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .ht-student-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .ht-avatar-box {
+    margin: 0 auto;
+  }
+
+  .ht-qr-box {
+    margin: 1rem auto 0 auto;
+  }
+}
+
+/* Mobile Devices (<= 767.98px) */
+@media (max-width: 767.98px) {
+  :root {
+    --topbar-height: 60px;
+  }
+
+  .app-topbar {
+    padding: 0 1rem;
+  }
+
+  .topbar-breadcrumbs {
+    display: none;
+  }
+
+  .topbar-search-trigger {
+    display: none; /* Accessible via search button in topbar */
+  }
+
+  .mobile-search-btn {
+    display: flex !important;
+  }
+
+  .app-content {
+    padding: 1rem;
+  }
+
+  .dashboard-hero-card {
+    padding: 1.25rem;
+  }
+
+  .hero-avatar {
+    width: 68px;
+    height: 68px;
+  }
+
+  .hero-name {
+    font-size: 1.35rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .page-title {
+    font-size: 1.3rem;
+  }
+
+  .page-actions {
+    width: 100%;
+  }
+
+  .page-actions .btn {
+    flex: 1;
+  }
+
+  .app-footer {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  .filter-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+
+  .search-box {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+}
+
+/* Very Small Mobile (< 480px) */
+@media (max-width: 480px) {
+  .hero-student-meta {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .hero-badges-row {
+    justify-content: center;
+  }
+
+  .btn-hero-primary, .btn-hero-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Print Stylesheet for Hall Tickets, Marks Cards, Receipts */
+@media print {
+  .app-sidebar,
+  .app-topbar,
+  .app-footer,
+  .page-actions,
+  .demo-banner,
+  .btn,
+  .filter-toolbar,
+  .sidebar-backdrop {
+    display: none !important;
+  }
+
+  .app-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
+  .app-content {
+    padding: 0 !important;
+  }
+
+  .camu-card, .hall-ticket-container {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+}

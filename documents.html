@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Vault | MY CAMU</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="documents">
+
+  <div class="app-container">
+    <aside class="app-sidebar" id="appSidebar"></aside>
+
+    <div class="app-main">
+      <div class="demo-banner">
+        <div>
+          <i class="bi bi-file-earmark-lock2-fill me-1 text-primary"></i>
+          <strong>MOHAN BABU UNIVERSITY</strong> &bull; Secure Student Document Vault
+        </div>
+        <div>
+          <span class="badge-demo">Demonstration Vault</span>
+        </div>
+      </div>
+
+      <header class="app-topbar" id="appTopbar"></header>
+
+      <main class="app-content">
+        <div class="page-header">
+          <div class="page-title-box">
+            <h2 class="page-title"><i class="bi bi-file-earmark-lock2-fill text-primary"></i> Student Document Vault</h2>
+            <p class="page-subtitle">Verified secondary marksheets, national IDs, university allotment orders, and official affidavits.</p>
+          </div>
+          <div class="page-actions">
+            <button type="button" class="btn btn-primary" onclick="CamuUtils.showToast('Document upload gateway opened.', 'info', 'Upload')">
+              <i class="bi bi-upload me-1"></i> Upload Document
+            </button>
+          </div>
+        </div>
+
+        <div class="camu-card">
+          <div class="camu-card-body p-0">
+            <div class="camu-table-wrap border-0">
+              <table class="camu-table">
+                <thead>
+                  <tr>
+                    <th>Document Name</th>
+                    <th>Document Type</th>
+                    <th>Uploaded Date</th>
+                    <th>Verification Authority</th>
+                    <th>Status</th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="documentsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="app-footer" id="appFooter"></footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/utilities.js"></script>
+  <script src="js/navigation.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      CamuNav.init("documents", [{ label: "Documents", href: "documents.html" }]);
+      const docs = CamuStorage.get("documents") || [];
+      const tbody = document.getElementById("documentsTableBody");
+      let html = "";
+      docs.forEach(d => {
+        html += `
+          <tr>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-pdf-fill text-danger fs-5"></i>
+                <span class="fw-bold text-main">${d.name}</span>
+              </div>
+            </td>
+            <td><span class="badge bg-light text-dark border">${d.type}</span></td>
+            <td>${CamuUtils.formatDate(d.uploadedDate)}</td>
+            <td><span class="text-muted small">${d.verifiedBy}</span></td>
+            <td><span class="badge bg-success-subtle text-success"><i class="bi bi-check2-circle me-1"></i>${d.status}</span></td>
+            <td class="text-center">
+              <button type="button" class="btn btn-sm btn-outline-primary" onclick="CamuUtils.showToast('Accessing document vault file: ${d.name}', 'info', 'Document Viewer')">
+                <i class="bi bi-eye me-1"></i> View
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+    });
+  </script>
+</body>
+</html>
